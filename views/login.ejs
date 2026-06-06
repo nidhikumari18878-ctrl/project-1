@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Login - Placement Tracker</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body{
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+
+</head>
+
+<body class="bg-[#f7f7ff] min-h-screen flex items-center justify-center px-4">
+
+  <!-- Main Container -->
+  <div class="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden grid md:grid-cols-2 flex justify-center ">
+
+   
+
+    <!-- Right Side -->
+    <div class="p-8 md:p-14 flex flex-col justify-center">
+
+      <!-- Mobile Logo -->
+      <div class=" flex items-center justify-center gap-3 mb-10">
+
+        <div class="w-12 h-12 rounded-2xl bg-violet-600 text-white flex items-center justify-center font-bold">
+          PT
+        </div>
+
+        <h1 class="text-2xl font-semibold">
+          Placement Tracker
+        </h1>
+
+      </div>
+
+      <!-- Heading -->
+      <div class="mb-8">
+
+        <h2 class="text-4xl font-bold text-gray-800 mb-3">
+          Login
+        </h2>
+
+        <p class="text-gray-500">
+          Continue your placement journey
+        </p>
+
+      </div>
+
+      <!-- Form -->
+      <form class="space-y-6" action="/login" method="POST">
+
+        <!-- Email -->
+        <div>
+
+          <label class="block mb-2 text-sm font-medium text-gray-700">
+            Email Address
+          </label>
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          />
+
+        </div>
+
+        <!-- Password -->
+        <div>
+
+          <div class="flex items-center justify-between mb-2">
+
+            <label class="text-sm font-medium text-gray-700">
+              Password
+            </label>
+
+            <a href="#" class="text-sm text-violet-600 hover:underline">
+              Forgot password?
+            </a>
+
+          </div>
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          />
+
+        </div>
+
+        <!-- Button -->
+        <button
+          class="w-full bg-violet-600 hover:bg-violet-700 transition duration-300 text-white py-4 rounded-2xl font-semibold shadow-lg"
+        >
+          Login
+        </button>
+
+      </form>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-4 my-8">
+
+        <div class="flex-1 h-[1px] bg-gray-200"></div>
+
+        <p class="text-sm text-gray-400">
+          OR
+        </p>
+
+        <div class="flex-1 h-[1px] bg-gray-200"></div>
+
+      </div>
+
+      <!-- Google Button -->
+      <button class="w-full border border-gray-200 py-4 rounded-2xl font-medium hover:bg-gray-50 transition">
+
+        Continue with Google
+
+      </button>
+
+      <!-- Signup -->
+      <p class="text-center text-gray-500 mt-8">
+
+        Don’t have an account?
+
+        <a href="/register" class="text-violet-600 font-medium hover:underline">
+          Sign Up
+        </a>
+
+      </p>
+
+    </div>
+
+  </div>
+<script src="/javascripts/script.js"></script>
+</body>
+</html>

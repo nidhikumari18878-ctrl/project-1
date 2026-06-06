@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Resume Analyzer - Placement Tracker</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body{
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+
+</head>
+
+<body class="bg-[#f6f7fb]">
+
+  <div class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-72 bg-white border-r border-gray-100 p-6 hidden md:block">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-3 mb-12">
+
+        <div class="w-12 h-12 rounded-2xl bg-violet-600 flex items-center justify-center text-white font-bold">
+          PT
+        </div>
+
+        <h1 class="text-lg font-semibold">
+          Placement Tracker
+        </h1>
+
+      </div>
+
+      <!-- Menu -->
+      <nav class="space-y-3">
+
+        <a href="/dashboard"
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600 hover:bg-gray-50 transition">
+          📊 Dashboard
+        </a>
+
+        <a href="/applications"
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600 hover:bg-gray-50 transition">
+          📌 Applications
+        </a>
+
+        <a href="/resume"
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-violet-50 text-violet-700 font-medium">
+          📄 Resume Analyzer
+        </a>
+
+        <a href="#"
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600 hover:bg-gray-50 transition">
+          🏢 Companies
+        </a>
+
+        <a href="/profile"
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600 hover:bg-gray-50 transition">
+          👤 Profile
+        </a>
+
+      </nav>
+
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 p-8">
+
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-8">
+
+        <div>
+
+          <h1 class="text-3xl font-bold text-gray-800">
+            Resume Analyzer 📄
+          </h1>
+
+          <p class="text-gray-500 mt-1">
+            Analyze your resume with AI insights
+          </p>
+
+        </div>
+
+        <button class="bg-violet-600 hover:bg-violet-700 transition text-white px-6 py-3 rounded-2xl shadow-lg">
+          Upload Resume
+        </button>
+
+      </div>
+
+      <!-- Upload Box -->
+    <form
+  action="/upload-resume"
+  method="POST"
+  enctype="multipart/form-data"
+  class="flex flex-col items-center gap-4"
+>
+
+  <input
+    type="file"
+    name="resume"
+    required
+    class="border p-2 rounded"
+  >
+
+  <button
+    type="submit"
+    class="bg-violet-600 hover:bg-violet-700 text-white px-6 py-3 rounded-2xl"
+  >
+    Upload Resume
+  </button>
+
+</form>
+      <!-- Analytics Grid -->
+      <div class="grid lg:grid-cols-3 gap-6 mb-8">
+
+        <!-- ATS Score -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm flex flex-col items-center justify-center">
+
+          <h2 class="text-xl font-semibold mb-6">
+            ATS Score
+          </h2>
+
+          <!-- Circle -->
+          <div class="w-40 h-40 rounded-full border-[14px] border-violet-600 flex items-center justify-center mb-4">
+
+            <div class="text-center">
+
+              <h1 class="text-4xl font-bold text-gray-800">
+                <%=resumeData? resumeData.atsScore:0 %>%
+              </h1>
+
+              <p class="text-sm text-gray-500 mt-1">
+                Good Score
+              </p>
+
+            </div>
+
+          </div>
+
+          <p class="text-gray-500 text-center">
+            Your resume performs well for ATS systems.
+          </p>
+
+        </div>
+
+        <!-- Skills Match -->
+        <div class="bg-white rounded-3xl p-8 shadow-sm">
+
+          <h2 class="text-xl font-semibold mb-6">
+            Skills Match
+          </h2>
+
+          <div class="space-y-4">
+
+            <!-- Skill -->
+            <!-- <div class="flex items-center justify-between bg-green-50 px-5 py-4 rounded-2xl">
+
+              <span class="font-medium text-gray-700">
+                HTML & CSS
+              </span>
+
+              <span class="text-green-600 font-semibold">
+                ✓
+              </span>
+
+            </div> -->
+
+          <% if(resumeData){ %>
+
+  <% resumeData.skills.forEach(skill=>{ %>
+
+    <div class="flex items-center justify-between bg-green-50 px-5 py-4 rounded-2xl">
+
+      <span><%= skill %></span>
+
+      <span class="text-green-600">
+        ✓
+      </span>
+
+    </div>
+
+  <% }) %>
+
+<% } %>
+
+          </div>
+
+        </div>
+
+        <!-- AI Suggestions -->
+        <div class="bg-gradient-to-br from-violet-600 to-indigo-600 rounded-3xl p-8 text-white shadow-xl">
+
+          <div class="text-5xl mb-6">
+            🤖
+          </div>
+
+          <h2 class="text-2xl font-bold mb-4">
+            AI Suggestions
+          </h2>
+
+          <p class="leading-relaxed text-violet-100 mb-6">
+
+            Improve your DSA and backend skills to increase your placement chances.
+
+          </p>
+
+          <div class="space-y-3">
+
+            <!-- <div class="bg-white/10 px-4 py-3 rounded-2xl">
+              Learn MongoDB
+            </div> -->
+            <% if(resumeData){ %>
+
+  <% resumeData.suggestions.forEach(item=>{ %>
+
+    <div class="bg-white/10 px-4 py-3 rounded-2xl">
+      <%= item %>
+    </div>
+
+  <% }) %>
+
+<% } %>
+          
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Missing Skills -->
+      <div class="bg-white rounded-3xl p-8 shadow-sm">
+
+        <div class="flex items-center justify-between mb-6">
+
+          <h2 class="text-2xl font-semibold">
+            Missing Skills
+          </h2>
+
+          <span class="text-sm text-gray-500">
+            Recommended for placements
+          </span>
+
+        </div>
+
+        <!-- Skills -->
+        <div class="flex flex-wrap gap-4">
+
+          <!-- <div class="bg-red-50 text-red-600 px-5 py-3 rounded-2xl font-medium">
+            MongoDB
+          </div> -->
+
+         <% if(resumeData){ %>
+
+  <% resumeData.missingSkills.forEach(skill=>{ %>
+
+      <div class="bg-red-50 text-red-600 px-5 py-3 rounded-2xl">
+
+        <%= skill %>
+
+      </div>
+
+  <% }) %>
+
+<% } %>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+<script src="/javascripts/script.js"></script>
+</body>
+</html>

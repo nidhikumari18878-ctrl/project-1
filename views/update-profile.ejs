@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-100 min-h-screen flex justify-center items-center">
+    <div class="bg-white shadow-2xl rounded-2xl p-8 w-[400px]">
+      <h1 class="text-3xl font-bold text-center mb-6">Edit Profile</h1>
+
+      <!-- Profile Image -->
+      <div class="flex justify-center mb-6">
+        <img
+          src="https://i.pravatar.cc/150?img=12"
+          alt="profile"
+          class="w-28 h-28 rounded-full object-cover border-4 border-blue-500"
+        />
+      </div>
+
+      <!-- Form -->
+      <form action="/update-profile" method="POST" class="flex flex-col gap-4">
+        <!-- Name -->
+        <div>
+          <label class="block mb-1 font-semibold"> Name </label>
+
+          <input
+            type="text"
+            name="name"
+            value="<%= user.name %>"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block mb-1 font-semibold"> Email </label>
+
+          <input
+            type="email"
+            name="email"
+            value="<%= user.email %>"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
+        <!-- Profile Photo URL -->
+        <div>
+          <label class="block mb-1 font-semibold"> Profile Image URL </label>
+
+          <input
+            type="text"
+            name="image"
+            value="<%= user.image %>"
+            placeholder="Paste image URL"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
+        <!-- Buttons -->
+        <button
+          class="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition mt-2"
+        >
+          Save Changes
+        </button>
+      </form>
+
+      <a
+        href="/profile"
+        class="block text-center bg-gray-200 hover:bg-gray-300 py-2 rounded-lg mt-4 transition"
+      >
+        Back
+      </a>
+    </div>
+  </body>
+</html>
