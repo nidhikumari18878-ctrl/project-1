@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const cookieParser = require('cookie-parser');
 const path = require("path");
-const expressSession = require("express-session");
+
 const flash = require("connect-flash");
 const mongoose = require("mongoose");
 const profileRoutes = require("./routes/profileRoutes");
@@ -14,6 +14,10 @@ const applicationModel = require("./models/applicationModel");
 const userModel = require("./models/user");
 const multer = require("multer");
 const Resume = require("./models/resumeModel");
+const pdfParse=require("pdf-parse");
+const fs=require("fs");
+const {GoogleGenerativeAI}=require("@google/generative-ai");
+const genAI=new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 
 
 app.set("view engine", 'ejs');
@@ -22,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(flash());
+const expressSession = require("express-session");
 app.use(expressSession({
     resave: false,
     saveUninitialized: false,
@@ -53,6 +58,26 @@ app.use("/", profileRoutes);
 app.get("/", (req, res) => {
     res.render("index");
 });
+app.get("/test-ai", async (req, res) => {
+  try {
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash"
+    });
+
+    const result = await model.generateContent(
+      "What is Placement Tracker?"
+    );
+
+    res.send(result.response.text());
+
+  } catch(err) {
+
+    console.log(err);
+    res.send(err.message);
+
+  }
+});
 
 app.get("/application", isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({ email: req.user.email });
@@ -65,17 +90,93 @@ app.get("/resume", async (req, res) => {
     res.render("resume", { resumeData });
 });
 
-app.post("/upload-resume", upload.single("resume"), async (req, res) => {
-    const filename = req.file.filename;
-    const skills = ["HTML", "CSS", "JavaScript", "React"];
-    const atsScore = 80;
-    const missingSkills = ["Node.js", "MongoDB", "DSA"];
-    const suggestions = ["Add more projects", "Learn MongoDB", "Improve DSA"];
+app.post(
+  "/upload-resume",
+  upload.single("resume"),
+  async (req, res) => {
 
-    await Resume.create({ filename, skills, atsScore, missingSkills, suggestions });
-    res.redirect("/resume");
-});
+    try {
 
+      const fileBuffer =
+        fs.readFileSync(req.file.path);
+
+      const pdfData =
+        await pdfParse(fileBuffer);
+
+      const resumeText =
+        pdfData.text;
+
+      const model =
+        genAI.getGenerativeModel({
+          model: "gemini-1.5-flash"
+        });
+
+      const prompt = `
+Analyze this resume.
+
+Return ONLY valid JSON.
+
+Format:
+
+{
+  "atsScore": number,
+  "skills": [],
+  "missingSkills": [],
+  "suggestions": []
+}
+
+Resume:
+
+${resumeText}
+`;
+
+      const result =
+        await model.generateContent(prompt);
+
+      const response =
+        result.response.text();
+
+      const cleanJson =
+        response
+          .replace(/```json/g, "")
+          .replace(/```/g, "")
+          .trim();
+
+      const analysis =
+        JSON.parse(cleanJson);
+
+      await Resume.create({
+
+        filename: req.file.filename,
+
+        atsScore:
+          analysis.atsScore,
+
+        skills:
+          analysis.skills,
+
+        missingSkills:
+          analysis.missingSkills,
+
+        suggestions:
+          analysis.suggestions
+
+      });
+
+      res.redirect("/resume");
+
+    } catch (err) {
+
+      console.log(err);
+
+      res.send(
+        "Resume analysis failed"
+      );
+
+    }
+
+  }
+);
 app.get("/dashboard", isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({
         email: req.user.email

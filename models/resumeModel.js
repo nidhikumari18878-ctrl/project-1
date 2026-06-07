@@ -15,10 +15,14 @@ const resumeSchema = new mongoose.Schema({
 
   suggestions:[String],
 
-  createdAt:{
-    type:Date,
-    default:Date.now
-  }
+
+  // createdAt:{
+  //   type:Date,
+  //   default:Date.now
+  // },
+
+ }, {
+    timestamps:true
 });
 
 module.exports = mongoose.model("Resume",resumeSchema);
