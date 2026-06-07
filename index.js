@@ -58,6 +58,7 @@ app.use("/", profileRoutes);
 app.get("/", (req, res) => {
     res.render("index");
 });
+
 app.get("/test-ai", async (req, res) => {
   try {
 
@@ -210,6 +211,7 @@ app.get("/opportunities", isLoggedIn, async (req, res) => {
             }
         });
         res.render("opportunities", { opportunities, search });
+        console.log(opportunities);
     } catch (err) {
         res.send(err.message);
     }

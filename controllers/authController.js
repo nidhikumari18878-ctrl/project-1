@@ -53,14 +53,14 @@ exports.login = async (req, res) => {
 
     // User not found
     if (!user) {
-      return res.send("Pehle register kare, account nahi mila.");
+      return res.send("no account exist");
     }
 
     // Password check
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.send("Password galat hai.");
+      return res.send("something went wrong");
     }
 
     // JWT Token
@@ -81,7 +81,6 @@ exports.login = async (req, res) => {
     return res.redirect("/dashboard");
 
   } catch (error) {
-    console.log(error);
     res.send("Server Error");
   }
 };
