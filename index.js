@@ -32,7 +32,7 @@ app.use(expressSession({
     saveUninitialized: false,
     secret: process.env.EXPRESS_SESSION_SECRET
 }));
-const mongoURI = process.env.MONGODB_URI ||"mongodb://127.0.0.1:27017/miniproject";
+const mongoURI = process.env.MONGODB_URI ;
 console.log("Connecting to MongoDB at: ", mongoURI); // Debugging line
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
