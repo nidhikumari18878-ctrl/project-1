@@ -273,12 +273,12 @@ app.get("/logout", (req, res) => {
     res.redirect('/login');
 });
 
-app.listen(5000, () => {
-    console.log("Server is running on port 5000");
-});
-// // export default app;
-// const PORT = process.env.PORT || 3000;
-
-// app.listen(PORT, () => {
-//   console.log(`Server running on ${PORT}`);
+// app.listen(5000, () => {
+//     console.log("Server is running on port 5000");
 // });
+// export default app;
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
