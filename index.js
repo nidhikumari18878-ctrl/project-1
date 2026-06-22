@@ -86,7 +86,7 @@ app.get("/application", isLoggedIn, async (req, res) => {
     res.render("application", { applications });
 });
 
-app.get("/resume", async (req, res) => {
+app.get("/resume", isLoggedIn,async (req, res) => {
     const resumeData = await Resume.findOne().sort({ createdAt: -1 });
     res.render("resume", { resumeData });
 });
@@ -143,8 +143,15 @@ ${resumeText}
           .replace(/```/g, "")
           .trim();
 
-      const analysis =
-        JSON.parse(cleanJson);
+      let analysis;
+
+try{
+  analysis = JSON.parse(cleanJson);
+}
+catch(err){
+  console.log("Invalid JSON from Gemini");
+  return res.send("AI returned invalid response");
+}
 
       await Resume.create({
 
@@ -266,12 +273,12 @@ app.get("/logout", (req, res) => {
     res.redirect('/login');
 });
 
-// // app.listen(5000, () => {
-// //     console.log("Server is running on port 5000");
-// // });
-// export default app;
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
+app.listen(5000, () => {
+    console.log("Server is running on port 5000");
 });
+// // export default app;
+// const PORT = process.env.PORT || 3000;
+
+// app.listen(PORT, () => {
+//   console.log(`Server running on ${PORT}`);
+// });

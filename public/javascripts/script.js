@@ -63,9 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
     applications.forEach((app, index) => {
       const row = `
       
-      <tr class="border-b hover:bg-gray-50 transition">
+      <tr class="border-b hover:bg-gray-700 hover:border-violet-500  transition">
 
-        <td class="py-4">${app.company||"-"}</td>
+        <td class="py-4 ">${app.company||"-"}</td>
 
         <td>${app.role ||"-"}</td>
 

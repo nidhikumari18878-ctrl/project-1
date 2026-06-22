@@ -5,6 +5,7 @@ const applicationSchema = mongoose.Schema({
     role: String,
     status: String,
     location: String,
+    
     package: String,
     user: {
         type: mongoose.Schema.Types.ObjectId,

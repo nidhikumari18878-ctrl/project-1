@@ -22,17 +22,17 @@
 
 </head>
 
-<body class="bg-[#f6f7fb]">
+<body class="bg-black text-white">
 
   <div class="flex min-h-screen">
 
     <!-- Sidebar -->
-    <aside class="w-72 bg-white border-r border-gray-100 p-6 hidden md:block">
+    <aside class="w-72 bg-zinc border-r border-zinc-800 p-6 hidden md:block">
 
       <!-- Logo -->
       <div class="flex items-center gap-3 mb-12">
 
-        <div class="w-12 h-12 rounded-2xl bg-violet-600 flex items-center justify-center text-white font-bold">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 flex items-center justify-center text-white font-bold shadow-lg">
           PT
         </div>
 
@@ -46,27 +46,27 @@
       <nav class="space-y-3">
 
         <a href="/dashboard"
-          class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600 hover:bg-gray-50 transition">
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 text-violet-400 border border-violet-500/20 transition">
           📊 Dashboard
         </a>
 
         <a href="/application"
-          class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600 hover:bg-gray-50 transition">
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 text-violet-400 border border-violet-500/20 transition">
           📌 Applications
         </a>
 
         <a href="/resume"
-          class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-violet-50 text-violet-700 font-medium">
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 text-violet-400 border border-violet-500/20 ">
           📄 Resume Analyzer
         </a>
 
-        <a href="#"
-          class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600 hover:bg-gray-50 transition">
+        <a href="/opportunities"
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 text-violet-400 border border-violet-500/20 transition">
           🏢 Companies
         </a>
 
         <a href="/profile"
-          class="flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-600 hover:bg-gray-50 transition">
+          class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 text-violet-400 border border-violet-500/20 transition">
           👤 Profile
         </a>
 
@@ -82,17 +82,17 @@
 
         <div>
 
-          <h1 class="text-3xl font-bold text-gray-800">
+          <h1 class="text-3xl font-bold text-white">
             Resume Analyzer 📄
           </h1>
 
-          <p class="text-gray-500 mt-1">
+          <p class="text-gray-400 mt-1">
             Analyze your resume with AI insights
           </p>
 
         </div>
 
-        <button class="bg-violet-600 hover:bg-violet-700 transition text-white px-6 py-3 rounded-2xl shadow-lg">
+        <button class="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:opacity-90 transition text-white px-6 py-3 rounded-2xl shadow-lg">
           Upload Resume
         </button>
 
@@ -110,7 +110,7 @@
     type="file"
     name="resume"
     required
-    class="border p-2 rounded"
+    class="bg-zinc-900 border border-zinc-700 text-white px-4 py-3 rounded-3xl"
   >
 
   <button
@@ -125,7 +125,7 @@
       <div class="grid lg:grid-cols-3 gap-6 mb-8">
 
         <!-- ATS Score -->
-        <div class="bg-white rounded-3xl p-8 shadow-sm flex flex-col items-center justify-center">
+        <div class="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl p-8 flex flex-col items-center justify-center">
 
           <h2 class="text-xl font-semibold mb-6">
             ATS Score
@@ -136,12 +136,12 @@
 
             <div class="text-center">
 
-              <h1 class="text-4xl font-bold text-gray-800">
+              <h1 class="text-4xl font-bold text-white">
                 <%=resumeData? resumeData.atsScore:0 %>%
               </h1>
 
-              <p class="text-sm text-gray-500 mt-1">
-               <p class="text-sm text-gray-500 mt-1">
+              <p class="text-sm text-gray-400 mt-1">
+               
 
 <% if(resumeData && resumeData.atsScore >= 80){ %>
 Excellent
@@ -158,14 +158,14 @@ Needs Improvement
 
           </div>
 
-          <p class="text-gray-500 text-center">
+          <p class="text-gray-400 text-center">
             Your resume performs well for ATS systems.
           </p>
 
         </div>
 
         <!-- Skills Match -->
-        <div class="bg-white rounded-3xl p-8 shadow-sm">
+        <div class="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl p-8 ">
 
           <h2 class="text-xl font-semibold mb-6">
             Skills Match
@@ -177,7 +177,7 @@ Needs Improvement
 
   <% resumeData.skills.forEach(skill=>{ %>
 
-    <div class="flex items-center justify-between bg-green-50 px-5 py-4 rounded-2xl">
+    <div class="flex items-center justify-between bg-green-500/10 border border-green-500/20 px-5 py-4 rounded-2xl">
 
       <span><%= skill %></span>
 
@@ -196,7 +196,7 @@ Needs Improvement
         </div>
 
         <!-- AI Suggestions -->
-        <div class="bg-gradient-to-br from-violet-600 to-indigo-600 rounded-3xl p-8 text-white shadow-xl">
+        <div class="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-3xl p-8 text-white shadow-xl">
 
           <div class="text-5xl mb-6">
             🤖
@@ -208,7 +208,11 @@ Needs Improvement
 
           <p class="leading-relaxed text-violet-100 mb-6">
 
-            Improve your DSA and backend skills to increase your placement chances.
+            <% if(resumeData && resumeData.suggestions.length){ %>
+<p class="leading-relaxed text-violet-100 mb-6">
+  <%= resumeData.suggestions[0] %>
+</p>
+<% } %>
 
           </p>
 
@@ -217,7 +221,7 @@ Needs Improvement
 
   <% resumeData.suggestions.forEach(item=>{ %>
 
-    <div class="bg-white/10 px-4 py-3 rounded-2xl">
+    <div class="bg-black/20 border border-white/10 px-4 py-3 rounded-2xl">
       <%= item %>
     </div>
 
@@ -233,7 +237,7 @@ Needs Improvement
       </div>
 
       <!-- Missing Skills -->
-      <div class="bg-white rounded-3xl p-8 shadow-sm">
+      <div class="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl p-8 ">
 
         <div class="flex items-center justify-between mb-6">
 
@@ -241,7 +245,7 @@ Needs Improvement
             Missing Skills
           </h2>
 
-          <span class="text-sm text-gray-500">
+          <span class="text-sm text-gray-400">
             Recommended for placements
           </span>
 
@@ -253,7 +257,7 @@ Needs Improvement
 
   <% resumeData.missingSkills.forEach(skill=>{ %>
 
-      <div class="bg-red-50 text-red-600 px-5 py-3 rounded-2xl">
+      <div class="bg-red-500/10 text-red-400 border border-red-500/20 px-5 py-3 rounded-2xl">
 
         <%= skill %>
 

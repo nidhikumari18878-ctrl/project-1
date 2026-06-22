@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>Login - Placement Tracker</title>
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -21,24 +20,59 @@
 
 </head>
 
-<body class="bg-[#f7f7ff] min-h-screen flex items-center justify-center px-4">
+<body class="bg-black min-h-screen flex items-center justify-center px-4 text-white overflow-hidden">
 
-  <!-- Main Container -->
-  <div class="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden grid md:grid-cols-2 flex justify-center ">
+  <!-- Background Glow -->
+  <div class="fixed top-0 left-0 w-96 h-96 bg-violet-600/20 blur-[120px] rounded-full"></div>
+  <div class="fixed bottom-0 right-0 w-96 h-96 bg-fuchsia-600/20 blur-[120px] rounded-full"></div>
 
-   
+  <!-- Login Container -->
+  <div class="relative z-10 w-full max-w-5xl bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl shadow-2xl overflow-hidden grid md:grid-cols-2">
 
-    <!-- Right Side -->
+    <!-- Left Panel -->
+    <div class="hidden md:flex flex-col justify-center p-12 bg-gradient-to-br from-violet-600/20 to-fuchsia-600/20 border-r border-zinc-800">
+
+      <div class="w-16 h-16 rounded-3xl bg-gradient-to-r from-violet-600 to-fuchsia-600 flex items-center justify-center text-white font-bold text-xl mb-8">
+        PT
+      </div>
+
+      <h1 class="text-5xl font-bold mb-6">
+        Welcome Back 👋
+      </h1>
+
+      <p class="text-gray-300 text-lg leading-relaxed">
+        Continue tracking applications, resume analysis and placement preparation from one dashboard.
+      </p>
+
+      <div class="mt-10 space-y-4">
+
+        <!-- <div class="bg-zinc-800/50 border border-zinc-700 p-4 rounded-2xl">
+          📌 Track Applications
+        </div>
+
+        <div class="bg-zinc-800/50 border border-zinc-700 p-4 rounded-2xl">
+          📄 Resume Analysis
+        </div>
+
+        <div class="bg-zinc-800/50 border border-zinc-700 p-4 rounded-2xl">
+          🎯 Placement Insights
+        </div> -->
+
+      </div>
+
+    </div>
+
+    <!-- Right Panel -->
     <div class="p-8 md:p-14 flex flex-col justify-center">
 
-      <!-- Mobile Logo -->
-      <div class=" flex items-center justify-center gap-3 mb-10">
+      <!-- Logo -->
+      <div class="flex items-center justify-center gap-3 mb-10">
 
-        <div class="w-12 h-12 rounded-2xl bg-violet-600 text-white flex items-center justify-center font-bold">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white flex items-center justify-center font-bold">
           PT
         </div>
 
-        <h1 class="text-2xl font-semibold">
+        <h1 class="text-2xl font-bold">
           Placement Tracker
         </h1>
 
@@ -47,23 +81,23 @@
       <!-- Heading -->
       <div class="mb-8">
 
-        <h2 class="text-4xl font-bold text-gray-800 mb-3">
+        <h2 class="text-4xl font-bold text-white mb-3">
           Login
         </h2>
 
-        <p class="text-gray-500">
+        <p class="text-gray-400">
           Continue your placement journey
         </p>
 
       </div>
 
       <!-- Form -->
-      <form class="space-y-6" action="/login" method="POST">
+      <form action="/login" method="POST" class="space-y-6">
 
         <!-- Email -->
         <div>
 
-          <label class="block mb-2 text-sm font-medium text-gray-700">
+          <label class="block mb-2 text-sm font-medium text-gray-300">
             Email Address
           </label>
 
@@ -71,8 +105,8 @@
             type="email"
             name="email"
             placeholder="Enter your email"
-            class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500"
-          />
+            class="w-full px-5 py-4 rounded-2xl bg-zinc-950 border border-zinc-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          >
 
         </div>
 
@@ -81,11 +115,11 @@
 
           <div class="flex items-center justify-between mb-2">
 
-            <label class="text-sm font-medium text-gray-700">
+            <label class="text-sm font-medium text-gray-300">
               Password
             </label>
 
-            <a href="#" class="text-sm text-violet-600 hover:underline">
+            <a href="#" class="text-sm text-violet-400 hover:text-violet-300">
               Forgot password?
             </a>
 
@@ -95,14 +129,15 @@
             type="password"
             name="password"
             placeholder="Enter your password"
-            class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-500"
-          />
+            class="w-full px-5 py-4 rounded-2xl bg-zinc-950 border border-zinc-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500"
+          >
 
         </div>
 
-        <!-- Button -->
+        <!-- Login Button -->
         <button
-          class="w-full bg-violet-600 hover:bg-violet-700 transition duration-300 text-white py-4 rounded-2xl font-semibold shadow-lg"
+          type="submit"
+          class="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:opacity-90 transition text-white py-4 rounded-2xl font-semibold shadow-lg"
         >
           Login
         </button>
@@ -112,29 +147,27 @@
       <!-- Divider -->
       <div class="flex items-center gap-4 my-8">
 
-        <div class="flex-1 h-[1px] bg-gray-200"></div>
+        <div class="flex-1 h-px bg-zinc-700"></div>
 
-        <p class="text-sm text-gray-400">
-          OR
-        </p>
+        <span class="text-gray-500 text-sm">OR</span>
 
-        <div class="flex-1 h-[1px] bg-gray-200"></div>
+        <div class="flex-1 h-px bg-zinc-700"></div>
 
       </div>
 
       <!-- Google Button -->
-      <button class="w-full border border-gray-200 py-4 rounded-2xl font-medium hover:bg-gray-50 transition">
-
+      <button
+        class="w-full border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 transition py-4 rounded-2xl font-medium"
+      >
         Continue with Google
-
       </button>
 
       <!-- Signup -->
-      <p class="text-center text-gray-500 mt-8">
+      <p class="text-center text-gray-400 mt-8">
 
         Don’t have an account?
 
-        <a href="/register" class="text-violet-600 font-medium hover:underline">
+        <a href="/register" class="text-violet-400 font-medium hover:text-violet-300">
           Sign Up
         </a>
 
@@ -143,6 +176,8 @@
     </div>
 
   </div>
-<script src="/javascripts/script.js"></script>
+
+  <script src="/javascripts/script.js"></script>
+
 </body>
 </html>
