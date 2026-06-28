@@ -32,10 +32,13 @@ app.use(expressSession({
     saveUninitialized: false,
     secret: process.env.EXPRESS_SESSION_SECRET
 }));
-// const mongo_URI = process.env.MONGODB_URI;
-// console.log("Connecting to MongoDB at: ", mongoURI); // Debugging line
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+const dns = require("dns");
+
+if (process.env.NODE_ENV !== "production") {
+  dns.setServers(["8.8.8.8", "8.8.4.4"]);
+}
+
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error(err));
 
