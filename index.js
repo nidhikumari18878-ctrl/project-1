@@ -38,9 +38,20 @@ if (process.env.NODE_ENV !== "production") {
   dns.setServers(["8.8.8.8", "8.8.4.4"]);
 }
 
+// mongoose.connect(process.env.MONGODB_URI)
+//     .then(() => console.log('MongoDB connected'))
+//     .catch(err => console.error(err));
 mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error(err));
+  .then(() => {
+    console.log("✅ MongoDB connected");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error("❌ MongoDB Error:", err);
+  });
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({

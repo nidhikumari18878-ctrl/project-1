@@ -7,6 +7,7 @@ exports.showregister = (req, res) => {
 // Register
 exports.register = async (req, res) => {
   try {
+     
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
@@ -15,8 +16,7 @@ exports.register = async (req, res) => {
 
     const existingUser = await userModel.findOne({ email });
 
-    if (existingUser) {
-      return res.send("Aapka account pehle se hi hai, please login kare.");
+    if (existingUser) { 
       res.redirect("/login")
     }
 
