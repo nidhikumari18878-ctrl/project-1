@@ -29,10 +29,10 @@ exports.register = async (req, res) => {
     });
 
     res.redirect("/login")
-  } catch (error) {
+  }catch (error) {
     console.log(error);
-    res.send("Server Error");
-  }
+    res.send(error);
+}
 };
 
 // Login Page
@@ -81,6 +81,7 @@ exports.login = async (req, res) => {
     return res.redirect("/dashboard");
 
   } catch (error) {
-    res.send("Server Error");
-  }
+    console.log(error);
+    res.send(error);
+}
 };
