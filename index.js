@@ -14,7 +14,7 @@ const applicationModel = require("./models/applicationModel");
 const userModel = require("./models/user");
 const multer = require("multer");
 const Resume = require("./models/resumeModel");
-const pdfParse=require("pdf-parse");
+const pdfParse = require("pdf-parse");
 const fs=require("fs");
 const {GoogleGenerativeAI}=require("@google/generative-ai");
 const genAI=new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
@@ -45,9 +45,9 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("✅ MongoDB connected");
 
-    app.listen(PORT, () => {
-      console.log(`Server running on ${PORT}`);
-    });
+    // app.listen(PORT, () => {
+    //   console.log(`Server running on ${PORT}`);
+    // });
   })
   .catch(err => {
     console.error("❌ MongoDB Error:", err);
@@ -63,7 +63,16 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === "application/pdf") {
+      cb(null, true);
+    } else {
+      cb(new Error("Only PDF files are allowed"), false);
+    }
+  }
+});
 const isLoggedIn=require("./middlewares/isLoggedIn");
 
 app.use("/", authRoutes);
@@ -100,15 +109,20 @@ app.get("/application", isLoggedIn, async (req, res) => {
     res.render("application", { applications });
 });
 
-app.get("/resume", isLoggedIn,async (req, res) => {
-    const resumeData = await Resume.findOne().sort({ createdAt: -1 });
-    res.render("resume", { resumeData });
-});
+// app.get("/resume", isLoggedIn,async (req, res) => {
+//     const resumeData = await Resume.findOne().sort({ createdAt: -1 });
+//     res.render("resume", { resumeData });
+// });
 
 app.post(
-  "/upload-resume",
+  "/upload-resume",isLoggedIn,
   upload.single("resume"),
   async (req, res) => {
+    if(!req.file){
+
+return res.send("Please upload PDF");
+
+}
 
     try {
 
@@ -123,7 +137,7 @@ app.post(
 
       const model =
         genAI.getGenerativeModel({
-          model: "gemini-1.5-flash"
+          model: "gemini-2.0-flash"
         });
 
       const prompt = `
@@ -167,23 +181,25 @@ catch(err){
   return res.send("AI returned invalid response");
 }
 
-      await Resume.create({
+     let user = await userModel.findOne({
+    email:req.user.email
+});
 
-        filename: req.file.filename,
+await Resume.create({
 
-        atsScore:
-          analysis.atsScore,
+userId:user._id,
 
-        skills:
-          analysis.skills,
+filename:req.file.filename,
 
-        missingSkills:
-          analysis.missingSkills,
+atsScore:analysis.atsScore,
 
-        suggestions:
-          analysis.suggestions
+skills:analysis.skills,
 
-      });
+missingSkills:analysis.missingSkills,
+
+suggestions:analysis.suggestions
+
+});
 
       res.redirect("/resume");
 
@@ -199,6 +215,19 @@ catch(err){
 
   }
 );
+app.get("/resume",isLoggedIn,async(req,res)=>{
+
+const user=await userModel.findOne({
+email:req.user.email
+});
+
+const resumeData=await Resume.findOne({
+userId:user._id
+}).sort({createdAt:-1});
+
+res.render("resume",{resumeData});
+
+});
 app.get("/dashboard", isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({
         email: req.user.email
@@ -287,12 +316,12 @@ app.get("/logout", (req, res) => {
     res.redirect('/login');
 });
 
-// app.listen(5000, () => {
-//     console.log("Server is running on port 5000");
-// });
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
+app.listen(5000, () => {
+    console.log("Server is running on port 5000");
 });
+
+// const PORT = process.env.PORT || 5000;
+
+// app.listen(PORT, () => {
+//   console.log(`Server running on ${PORT}`);
+// });
