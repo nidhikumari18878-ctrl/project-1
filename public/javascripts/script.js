@@ -20,6 +20,41 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("applicationForm");
 
   const tableBody = document.getElementById("applicationTableBody");
+const resumeBtn = document.getElementById("resumeBtn");
+
+if (resumeBtn) {
+    resumeBtn.addEventListener("click", () => {
+        window.location.href = "/resume";
+    });
+}
+const suggestions = [
+  "Improve your DSA and React skills to increase placement chances.",
+  "Practice 2 LeetCode problems daily.",
+  "Build one full-stack MERN project.",
+  "Strengthen your SQL and DBMS concepts.",
+  "Update your resume with recent projects.",
+  "Practice HR interview questions.",
+  "Improve communication and aptitude skills.",
+  "Contribute to an open-source project.",
+  "Revise OOPs and Operating System concepts.",
+  "Optimize your LinkedIn profile."
+];
+const suggestion = document.getElementById("aiSuggestion");
+
+if (suggestion) {
+    const randomIndex = Math.floor(Math.random() * suggestions.length);
+    suggestion.textContent = suggestions[randomIndex];
+}
+const progressBar = document.getElementById("progressBar");
+
+if (progressBar) {
+    const atsScore = Number(progressBar.dataset.score) || 0;
+    const progressFill = document.getElementById("progressFill");
+
+    if (progressFill) {
+        progressFill.style.width = Math.min(atsScore, 100) + "%";
+    }
+}
 
   // =========================
   // OPEN MODAL
@@ -246,3 +281,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+

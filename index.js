@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const axios=require("axios");
 const app = express();
 const cookieParser = require('cookie-parser');
 const path = require("path");
@@ -20,6 +21,7 @@ const {GoogleGenerativeAI}=require("@google/generative-ai");
 const genAI=new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 
 
+
 app.set("view engine", 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,22 +34,16 @@ app.use(expressSession({
     saveUninitialized: false,
     secret: process.env.EXPRESS_SESSION_SECRET
 }));
-const dns = require("dns");
 
-if (process.env.NODE_ENV !== "production") {
-  dns.setServers(["8.8.8.8", "8.8.4.4"]);
-}
 
-// mongoose.connect(process.env.MONGODB_URI)
-//     .then(() => console.log('MongoDB connected'))
-//     .catch(err => console.error(err));
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("✅ MongoDB connected");
 
-    app.listen(PORT, () => {
-      console.log(`Server running on ${PORT}`);
-    });
+    // app.listen(PORT, () => {
+    //   console.log(`Server running on ${PORT}`);
+    // });
   })
   .catch(err => {
     console.error("❌ MongoDB Error:", err);
@@ -229,17 +225,21 @@ res.render("resume",{resumeData});
 
 });
 app.get("/dashboard", isLoggedIn, async (req, res) => {
-    let user = await userModel.findOne({
+
+    const user = await userModel.findOne({
         email: req.user.email
     });
 
-    res.render("dashboard", { user });
-});
-// app.get("/dashboard", isLoggedIn, async (req, res) => {
-//     let user = await userModel.findOne({ email: req.user.email }).populate("posts");
-//     res.render('dashboard', { user });
-// });
+    const resumeData = await Resume.findOne({
+        userId: user._id
+    }).sort({ createdAt: -1 });
 
+    res.render("dashboard", {
+        user,
+        resumeData
+    });
+
+});
 app.get("/update-profile", isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({ email: req.user.email });
     res.render("update-profile", { user });
@@ -253,46 +253,77 @@ app.post("/update-profile", isLoggedIn, async (req, res) => {
 
 app.get("/opportunities", isLoggedIn, async (req, res) => {
     try {
+      console.log("route hit")
         const search = req.query.search || "";
+        console.log("search=",search);
         const opportunities = await opportunityModel.find({
             companyName: {
                 $regex: search,
                 $options: "i"
             }
         });
-        res.render("opportunities", { opportunities, search });
         console.log(opportunities);
+        
+        res.render("opportunities", { opportunities, search });
+        
     } catch (err) {
         res.send(err.message);
     }
 });
 
-app.get("/seed", async (req, res) => {
-    await opportunityModel.insertMany([
-        {
-            companyName: "Google",
-            role: "Software Engineer Intern",
-            type: "Internship",
-            location: "Bangalore",
-            stipend: "₹80,000/month",
-            deadline: "2026-08-30",
-            applyLink: "https://careers.google.com",
-            logo: "https://logo.clearbit.com/google.com",
-            skills: ["DSA", "JavaScript", "React"]
+
+app.get("/fetch-jobs", async (req, res) => {
+  try {
+    const response = await axios.get(
+      "https://jsearch.p.rapidapi.com/search",
+      {
+        params: {
+          query: "Software Engineer Internship India",
+          page: "1",
+          num_pages: "1"
         },
-        {
-            companyName: "Microsoft",
-            role: "Frontend Developer Intern",
-            type: "Internship",
-            location: "Hyderabad",
-            stipend: "₹60,000/month",
-            deadline: "2026-09-05",
-                       applyLink: "https://careers.microsoft.com",
-            logo: "https://logo.clearbit.com/microsoft.com",
-            skills: ["HTML", "CSS", "React"]
+        headers: {
+          "X-RapidAPI-Key": process.env.RAPIDAPI_KEY,
+          "X-RapidAPI-Host": "jsearch27.p.rapidapi.com"
         }
-    ]);
-    res.send("Seeded");
+      }
+    );
+
+    console.log(response.data);
+    const jobs = response.data.data;
+
+for (const job of jobs) {
+
+  await opportunityModel.updateOne(
+    {
+      companyName: job.employer_name,
+      role: job.job_title,
+      applyLink: job.job_apply_link
+    },
+    {
+      companyName: job.employer_name,
+      role: job.job_title,
+      type: job.job_employment_type,
+      location: job.job_city || job.job_country || "Remote",
+      stipend: "Not Mentioned",
+      deadline: "Apply ASAP",
+      applyLink: job.job_apply_link,
+      logo: job.employer_logo || "",
+      skills: job.job_required_skills || []
+    },
+    { upsert: true }
+  );
+
+}
+
+res.send("Jobs Imported Successfully");
+
+    
+
+  } catch (err) {
+    console.log(err.response?.data || err.message);
+    res.send("Error");
+  }
 });
 
 app.get("/track/:id", isLoggedIn, async (req, res) => {
@@ -316,12 +347,12 @@ app.get("/logout", (req, res) => {
     res.redirect('/login');
 });
 
-// app.listen(5000, () => {
-//     console.log("Server is running on port 5000");
-// });
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
+app.listen(5000, () => {
+    console.log("Server is running on port 5000");
 });
+
+// const PORT = process.env.PORT || 5000;
+
+// app.listen(PORT, () => {
+//   console.log(`Server running on ${PORT}`);
+// });

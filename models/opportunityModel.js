@@ -3,7 +3,7 @@ const mongoose=require("mongoose");
 
 const opportunitySchema =mongoose.Schema({
     
-   CompanyName:String,
+   companyName:String,
     role:String,
     type:String,
     location:String,
